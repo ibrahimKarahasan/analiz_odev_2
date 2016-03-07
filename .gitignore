@@ -1,0 +1,90 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Diagnostics;
+
+namespace analiz_1
+{
+    class Program
+    {
+        
+        static void Main(string[] args)
+        {
+            
+            int boyut;
+            Console.WriteLine("dizi boyutunu giriniz...");
+            boyut = Convert.ToInt32(Console.ReadLine());
+            int[] myArray = new int[boyut];
+            
+            Random rasgele = new Random();
+            for (int j=0;j< myArray.Length; j++)
+            {
+                myArray[j] = rasgele.Next(100000);
+                Console.WriteLine("eleman="+j+"  "+myArray[j]);
+            }
+
+            int[] aranacak_dizi = new int[boyut];
+            for(int i = 0; i < aranacak_dizi.Length; i++)
+            {
+                aranacak_dizi[i] = rasgele.Next(1000);
+                Console.WriteLine("eleman=" + i + "  " + aranacak_dizi[i]);
+            }
+            int sayi;
+            int toplam = 0;
+
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            
+            for (int k=0;k<aranacak_dizi.Length;k++)
+            {
+                
+                sayi =arama(myArray,aranacak_dizi[k]);
+                toplam += sayi;
+
+
+            }
+            sw.Stop();
+            
+
+            Console.WriteLine("Geçen süre="+sw.Elapsed.Milliseconds);
+
+            Console.WriteLine("Karşılaştırma sayısı= "+toplam/boyut);
+            Console.ReadKey();
+        }
+        public static int arama(int[] myArray, int number)
+        {
+            int a = 1;
+            int eb = myArray.Length;
+            int ek = -1;
+            int bayrak = 0;
+            while (eb-ek>1)
+            {
+                int bakilan = (eb + ek) / 2;
+                if (myArray[bakilan] == number)
+                {
+                    bayrak = 1;
+                    Console.WriteLine("Sayı dizide var...");
+                    break;
+                }
+                else if (myArray[bakilan] < number)
+                {
+                    ek = bakilan;
+                }
+                else
+                {
+                    eb = bakilan;
+                }
+                a += 1;
+            }
+            if (bayrak == 0)
+            {
+                Console.WriteLine("Sayı bulunamadı.");
+            }
+            
+            return a;
+        }
+        
+    }
+}
